@@ -111,3 +111,29 @@ tileContainer.addEventListener('click', (event) => {
 
     if (tile) handleClick(tile);
 });
+
+let difficulty = 'medium';
+
+document.querySelectorAll('.difficulty-button').forEach(button => {
+    button.addEventListener('click', (e) => {
+        difficulty = e.target.dataset.difficulty;
+        document.querySelector('.difficulty-section').classList.add('hidden');
+        startGame();
+    });
+});
+
+function getDelay() {
+    switch (difficulty) {
+        case 'easy': return 800;
+        case 'medium': return 600;
+        case 'hard': return 400;
+    }
+}
+
+function playRound(nextSequence) {
+    nextSequence.forEach((color, index) => {
+        setTimeout(() => {
+            activateTile(color);
+        }, (index + 1) * getDelay());
+    });
+}

@@ -12,172 +12,149 @@ html {
 
 body {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     font-family: 'Rubik', sans-serif;
+    background-color: #f5f5f5;
 }
 
 .game {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
+    text-align: center;
 }
 
-.hidden {
-    display: none !important;
+.difficulty-section {
+    margin-bottom: 20px;
 }
 
-.invisble {
-    visibility: hidden;
+.difficulty-button {
+    margin: 5px;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.difficulty-button:hover {
+    background-color: #555;
+}
+
+.difficulty-button:active {
+    transform: scale(0.95);
 }
 
 header {
-    text-align: center;
-    font-size: 18px;
+    margin-bottom: 20px;
 }
 
 .heading {
     font-size: 3em;
+    color: #333;
+    margin-bottom: 20px;
 }
 
 .tile-container {
     display: grid;
-    grid-template-rows: 180px 180px;
-    grid-template-columns: 180px 180px;
-    grid-gap: 25px;
-    position: relative;
+    grid-template-rows: repeat(2, 180px);
+    grid-template-columns: repeat(2, 180px);
+    gap: 25px;
     margin-top: 30px;
     margin-bottom: 40px;
+    position: relative;
 }
 
-.unclickable {
-    pointer-events: none;
+.tile {
+    width: 180px;
+    height: 180px;
+    border-radius: 10px;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.tile:hover {
+    transform: scale(1.05);
 }
 
 .tile-red {
     background-color: #f25022;
-    box-shadow: 0 0 0 1px #f25022 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #c93a12, 0 8px 0 1px rgba(0, 0, 0, 0.4), 0 8px 8px 1px rgba(0, 0, 0, 0.5);
-    transition: 0.15s;
-}
-
-.tile-red:hover,
-.tile-red:focus {
-    background-color: #ff451a;
-    box-shadow: 0 0 0 1px #FF3000 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 10px 0 0 #e62b00, 0 10px 0 1px rgba(0, 0, 0, 0.4), 0 10px 8px 1px rgba(0, 0, 0, 0.6);
-}
-
-.tile-red:active,
-.tile-red.activated {
-    box-shadow: 0 0 0 1px #ff5c36 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 0 0 1px rgba(0, 0, 0, 0.4);
-    background-color: #ff5c36;
-    transform: translateY(10px);
 }
 
 .tile-green {
     background-color: #7fba00;
-    box-shadow: 0 0 0 1px #7fba00 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #638f05, 0 8px 0 1px rgba(0, 0, 0, 0.4), 0 8px 8px 1px rgba(0, 0, 0, 0.5);
-    transition: 0.15s;
-}
-
-.tile-green:hover,
-.tile-green:focus {
-    background-color: #8cc218;
-    box-shadow: 0 0 0 1px #8cc218 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 10px 0 0 #74a802, 0 10px 0 1px rgba(0, 0, 0, 0.4), 0 10px 8px 1px rgba(0, 0, 0, 0.6)
-}
-
-.tile-green:active,
-.tile-green.activated {
-    box-shadow: 0 0 0 1px #a0ea00 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 0 0 1px rgba(0, 0, 0, 0.4);
-    background-color: #a0ea00;
-    transform: translateY(10px);
 }
 
 .tile-yellow {
     background-color: #ffb900;
-    box-shadow: 0 0 0 1px #ffb900 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #c28e07, 0 8px 0 1px rgba(0, 0, 0, 0.4), 0 8px 8px 1px rgba(0, 0, 0, 0.5);
-    transition: 0.15s;
-}
-
-.tile-yellow:hover,
-.tile-yellow:focus {
-    background-color: #ffb900;
-    box-shadow: 0 0 0 1px #ffb900 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #c28e07, 0 8px 0 1px rgba(0, 0, 0, 0.4), 0 8px 8px 1px rgba(0, 0, 0, 0.5);
-}
-
-.tile-yellow:active,
-.tile-yellow.activated {
-    box-shadow: 0 0 0 1px #ffca3d inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 0 0 1px rgba(0, 0, 0, 0.4);
-    background-color: #ffca3d;
-    transform: translateY(10px);
 }
 
 .tile-blue {
     background-color: #00a4ef;
-    box-shadow: 0 0 0 1px #00a4ef inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #0883bc, 0 8px 0 1px rgba(0, 0, 0, 0.4), 0 8px 8px 1px rgba(0, 0, 0, 0.5);
-    transition: 0.15s;
 }
 
-.tile-blue:hover,
-.tile-blue:focus {
-    background-color: #139ddd;
-    box-shadow: 0 0 0 1px #139ddd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 10px 0 0 #0c7cb0, 0 10px 0 1px rgba(0, 0, 0, 0.4), 0 10px 8px 1px rgba(0, 0, 0, 0.6);
+.tile-red.activated {
+    background-color: #ff5c36;
+    box-shadow: 0 0 0 1px #ff5c36 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset;
 }
 
-.tile-blue:active,
+.tile-green.activated {
+    background-color: #a0ea00;
+    box-shadow: 0 0 0 1px #a0ea00 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset;
+}
+
+.tile-yellow.activated {
+    background-color: #ffca3d;
+    box-shadow: 0 0 0 1px #ffca3d inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset;
+}
+
 .tile-blue.activated {
-    box-shadow: 0 0 0 1px #2bbcff inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 0 0 1px rgba(0, 0, 0, 0.4);
     background-color: #2bbcff;
-    transform: translateY(10px);
+    box-shadow: 0 0 0 1px #2bbcff inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset;
 }
 
 .info-section {
-    text-align: center;
+    margin-top: 20px;
 }
 
 .start-button {
-    display: inline-block;
-    height: 38px;
-    padding: 0 30px;
-    color: #555;
-    text-align: center;
-    font-size: 14px;
+    padding: 12px 25px;
+    font-size: 16px;
     font-weight: 600;
-    line-height: 38px;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
-    text-decoration: none;
-    white-space: nowrap;
-    background-color: transparent;
-    border-radius: 4px;
-    border: 1px solid #bbb;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .start-button:hover {
-    color: #333;
-    border-color: #888;
-    outline: 0;
+    background-color: #555;
+}
+
+.start-button:active {
+    transform: scale(0.95);
 }
 
 .info {
     font-size: 22px;
+    color: #333;
 }
 
 @media screen and (max-width: 550px) {
-    .game {
-        width: 100%;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
     .heading {
         font-size: 2em;
     }
 
     .tile-container {
         width: 100%;
-        height: 100%;
-        grid-template-rows: 150px 150px;
-        grid-template-columns: 150px 150px;
+        height: auto;
+        grid-template-rows: repeat(2, 150px);
+        grid-template-columns: repeat(2, 150px);
     }
 }
