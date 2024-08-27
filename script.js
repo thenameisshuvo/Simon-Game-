@@ -137,3 +137,31 @@ function playRound(nextSequence) {
         }, (index + 1) * getDelay());
     });
 }
+
+let timer;
+const timerDisplay = document.querySelector('.timer-display');
+
+function startTimer() {
+    let timeLeft = 60; // seconds
+    timer = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            resetGame('Time is up! Game over.');
+        }
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timer);
+}
+
+// Call startTimer() when the game starts
+function startGame() {
+    startButton.classList.add('hidden');
+    info.classList.remove('hidden');
+    info.textContent = 'Wait for the computer';
+    startTimer();
+    nextRound();
+}

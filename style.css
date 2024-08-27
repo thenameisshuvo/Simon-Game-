@@ -158,3 +158,77 @@ header {
         grid-template-columns: repeat(2, 150px);
     }
 }
+
+.tile {
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.tile-red.activated,
+.tile-green.activated,
+.tile-yellow.activated,
+.tile-blue.activated {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.tile-red.activated,
+.tile-green.activated,
+.tile-yellow.activated,
+.tile-blue.activated {
+    animation: pulse 0.5s;
+}
+
+.difficulty-button {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.difficulty-button:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+header {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.info-section {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 600px) {
+    .tile {
+        width: 100px;
+        height: 100px;
+    }
+
+    .difficulty-button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .heading {
+        font-size: 2em;
+    }
+
+    .info {
+        font-size: 18px;
+    }
+}
+
