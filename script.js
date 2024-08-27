@@ -138,30 +138,12 @@ function playRound(nextSequence) {
     });
 }
 
-let timer;
-const timerDisplay = document.querySelector('.timer-display');
+const creditSection = document.querySelector('.credit-section');
 
-function startTimer() {
-    let timeLeft = 60; // seconds
-    timer = setInterval(() => {
-        timeLeft--;
-        timerDisplay.textContent = timeLeft;
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            resetGame('Time is up! Game over.');
-        }
-    }, 1000);
-}
+creditSection.addEventListener('mouseover', () => {
+    creditSection.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+});
 
-function stopTimer() {
-    clearInterval(timer);
-}
-
-// Call startTimer() when the game starts
-function startGame() {
-    startButton.classList.add('hidden');
-    info.classList.remove('hidden');
-    info.textContent = 'Wait for the computer';
-    startTimer();
-    nextRound();
-}
+creditSection.addEventListener('mouseout', () => {
+    creditSection.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+});
