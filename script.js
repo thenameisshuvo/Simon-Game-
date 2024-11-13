@@ -1,149 +1,76 @@
-const startButton = document.querySelector('.js-start');
-const info = document.querySelector('.js-info');
-const heading = document.querySelector('.js-heading');
-const tileContainer = document.querySelector('.js-container');
-
+let score = 0;
 let sequence = [];
-let humanSequence = [];
-let level = 0;
+let playerSequence = [];
+let difficulty = "easy";
 
-function resetGame(text) {
-    alert(text);
-    sequence = [];
-    humanSequence = [];
-    level = 0;
-    startButton.classList.remove('hidden');
-    heading.textContent = 'Simon Game';
-    info.classList.add('hidden');
-    tileContainer.classList.add('unclickable');
-}
-
-function humanTurn(level) {
-    tileContainer.classList.remove('unclickable');
-    info.textContent = `Your turn: ${level} Tap${level > 1 ? 's' : ''}`;
-}
-
-function activateTile(color) {
-    const tile = document.querySelector(`[data-tile=${color}]`);
-    const sound = document.querySelector(`[data-sound=${color}]`);
-
-    tile.classList.add('activated');
-    sound.play();
-
-    setTimeout(() => {
-        tile.classList.remove('activated');
-    }, 300);
-}
-
-function playRound(nextSequence) {
-    nextSequence.forEach((color, index) => {
-        setTimeout(() => {
-            activateTile(color);
-        }, (index + 1) * 600);
-    });
-}
-
-function nextStep() {
-    const tiles = ['red', 'green', 'blue', 'yellow'];
-    const random = tiles[Math.floor(Math.random() * tiles.length)];
-
-    return random;
-}
-
-function nextRound() {
-    level += 1;
-
-    tileContainer.classList.add('unclickable');
-    info.textContent = 'Wait for the computer';
-    heading.textContent = `Level ${level} of 20`;
-
-    const nextSequence = [...sequence];
-    nextSequence.push(nextStep());
-    playRound(nextSequence);
-
-    sequence = [...nextSequence];
-    setTimeout(() => {
-        humanTurn(level);
-    }, level * 600 + 1000);
-}
-
-function handleClick(tile) {
-    const index = humanSequence.push(tile) - 1;
-    const sound = document.querySelector(`[data-sound='${tile}']`);
-    sound.play();
-
-    const remainingTaps = sequence.length - humanSequence.length;
-
-    if (humanSequence[index] !== sequence[index]) {
-        resetGame('Oops! Game over, you pressed the wrong tile');
-        return;
-    }
-
-    if (humanSequence.length === sequence.length) {
-        if (humanSequence.length === 20) {
-            resetGame('Congrats! You completed all the levels');
-            return;
-        }
-        humanSequence = [];
-        info.textContent = 'Success! Keep going!';
-        setTimeout(() => {
-            nextRound();
-        }, 1000);
-        return;
-    }
-
-    info.textContent = `Your turn: ${remainingTaps} Tap${
-        remainingTaps > 1 ? 's' : ''
-    }`;
+function setDifficulty(level) {
+    difficulty = level;
+    resetGame();
 }
 
 function startGame() {
-    startButton.classList.add('hidden');
-    info.classList.remove('hidden');
-    info.textContent = 'Wait for the computer';
+    score = 0;
+    sequence = [];
+    playerSequence = [];
+    updateScore();
     nextRound();
 }
 
-startButton.addEventListener('click', startGame);
+function nextRound() {
+    playerSequence = [];
+    const colors = ["red", "green", "yellow", "blue"];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+    sequence.push(randomColor);
 
-tileContainer.addEventListener('click', (event) => {
-    const { tile } = event.target.dataset;
+    showSequence();
+}
 
-    if (tile) handleClick(tile);
-});
+function showSequence() {
+    let delay = 500;
+    if (difficulty === "medium") delay = 400;
+    if (difficulty === "hard") delay = 300;
 
-let difficulty = 'medium';
-
-document.querySelectorAll('.difficulty-button').forEach(button => {
-    button.addEventListener('click', (e) => {
-        difficulty = e.target.dataset.difficulty;
-        document.querySelector('.difficulty-section').classList.add('hidden');
-        startGame();
+    sequence.forEach((color, index) => {
+        setTimeout(() => activateTile(color), delay * (index + 1));
     });
-});
+}
 
-function getDelay() {
-    switch (difficulty) {
-        case 'easy': return 800;
-        case 'medium': return 600;
-        case 'hard': return 400;
+function activateTile(color) {
+    const tile = document.querySelector(`.tile-${color}`);
+    tile.classList.add("activated");
+    setTimeout(() => tile.classList.remove("activated"), 300);
+}
+
+function handleTileClick(color) {
+    playerSequence.push(color);
+    activateTile(color);
+
+    if (!checkPlayerInput()) {
+        alert("Wrong! Game Over");
+        resetGame();
+        return;
+    }
+
+    if (playerSequence.length === sequence.length) {
+        score++;
+        updateScore();
+        nextRound();
     }
 }
 
-function playRound(nextSequence) {
-    nextSequence.forEach((color, index) => {
-        setTimeout(() => {
-            activateTile(color);
-        }, (index + 1) * getDelay());
-    });
+function checkPlayerInput() {
+    return playerSequence.every((color, index) => color === sequence[index]);
 }
 
-const creditSection = document.querySelector('.credit-section');
+function updateScore() {
+    document.getElementById("score").textContent = score;
+}
 
-creditSection.addEventListener('mouseover', () => {
-    creditSection.style.backgroundColor = 'rgba(0, 0, 0, 1)';
-});
+function resetGame() {
+    score = 0;
+    sequence = [];
+    playerSequence = [];
+    updateScore();
+}
 
-creditSection.addEventListener('mouseout', () => {
-    creditSection.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-});
+
